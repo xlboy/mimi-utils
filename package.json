@@ -1,0 +1,17 @@
+{
+  "name": "@mimi-utils/mimi-utils",
+  "version": "0.0.0",
+  "description": "some useful tools",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xlboy/mimi-utils.git"
+  },
+  "author": "xlboy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xlboy/mimi-utils/issues"
+  },
+  "homepage": "https://github.com/xlboy/mimi-utils#readme"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@mimi-utils/types",
+  "version": "0.0.0",
+  "description": "some practical types",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "**/*.d.ts"
+  ],
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}
