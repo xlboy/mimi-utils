@@ -13,5 +13,8 @@
   "bugs": {
     "url": "https://github.com/xlboy/mimi-utils/issues"
   },
+  "devDependencies": {
+    "typescript": "^4.7.2"
+  },
   "homepage": "https://github.com/xlboy/mimi-utils#readme"
 }
