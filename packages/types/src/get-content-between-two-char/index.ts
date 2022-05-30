@@ -1,4 +1,4 @@
-import type { A, S } from "ts-toolbelt";
+import type { A, S, N } from "ts-toolbelt";
 
 type _Get<
   Str extends string,
@@ -30,25 +30,48 @@ type _Get<
       >
     : _Get<RestS, StartChar, EndChar, "", StrContentArray, false>
   : StrContentArray[number];
+
+type _Warn<
+  SCharLength extends number,
+  ECharLength extends number
+> = SCharLength extends 0
+  ? "`StartChar` cannot be empty"
+  : N.Greater<SCharLength, 1> extends True
+  ? "The length of `StartChar` cannot be greater than 1"
+  : ECharLength extends 0
+  ? "`EndChar` cannot be empty"
+  : N.Greater<ECharLength, 1> extends True
+  ? "The length of `EndChar` cannot be greater than 1"
+  : never;
+
 /**
-  获取两个字符之间的内容。例如取出 {与} 字符之间内容： `Hello, {name}`，即name
+  获取两个字符之间的内容。例如取出 {与} 字符之间内容： `Hello, {name}`，即 name
   
   @param Str 字符串源
-  @param StartChar 需要作为获取条件的第一个字符串
-  @param EndChar 需要作为获取条件的第二个字符串
+  @param StartChar 需要作为获取条件的第一个字符
+  @param EndChar 需要作为获取条件的第二个字符
   @example
-
   type Str = `hello, my name is {name}, are you from {country}?`;
 
-  type Test1 = GetContentBetweenTwoChar<Str, '{', '}'>; // "name" | "country"
+  type Test1 = GetContentBetweenTwoChar<Str, "{", "}">;
+  type Test2 = GetContentBetweenTwoChar<Str, "{{", "}">;
+  type Test3 = GetContentBetweenTwoChar<Str, "{", "}}">;
+  type Test4 = GetContentBetweenTwoChar<Str, "", "">;
+  type Test5 = GetContentBetweenTwoChar<Str, ".", "">;
 
-  type Test2 = GetContentBetweenTwoChar<Str, '{{', '}'>; // "第一个或第二个字符的长度不可超过1"
+  type cases = [
+    Expect<Equal<Test1, "name" | "country">>,
+    Expect<Equal<Test2, "The length of `StartChar` cannot be greater than 1">>,
+    Expect<Equal<Test3, "The length of `EndChar` cannot be greater than 1">>,
+    Expect<Equal<Test4, "`StartChar` cannot be empty">>,
+    Expect<Equal<Test5, "`EndChar` cannot be empty">>,
+  ];
 
  */
 export type GetContentBetweenTwoChar<
   Str extends string,
   StartChar extends string,
   EndChar extends string
-> = A.Is<[S.Length<StartChar>, S.Length<EndChar>], [1, 1]> extends True
+> = [S.Length<StartChar>, S.Length<EndChar>] extends [1, 1]
   ? _Get<Str, StartChar, EndChar>
-  : "第一个或第二个字符的长度不可超过1";
+  : _Warn<S.Length<StartChar>, S.Length<EndChar>>;
