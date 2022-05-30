@@ -1,3 +1,7 @@
 {
-  "include": ["src"]
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src"]
 }

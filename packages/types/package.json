@@ -10,7 +10,7 @@
     "index.d.ts"
   ],
   "scripts": {
-    "test": "tsc --skipLibCheck --pretty --emitDeclarationOnly"
+    "test": "tsc"
   },
   "dependencies": {
     "type-fest": "^2.13.0",
