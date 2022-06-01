@@ -1,4 +1,4 @@
-import type { N, S } from "ts-toolbelt";
+import type { N, S } from 'ts-toolbelt';
 
 /**
   获取两个字符之间的内容
@@ -30,11 +30,10 @@ import type { N, S } from "ts-toolbelt";
   ];
 
  */
-export type GetContentBetweenTwoChar<
-  Str extends string,
-  StartChar extends string,
-  EndChar extends string
-> = [S.Length<StartChar>, S.Length<EndChar>] extends [1, 1]
+export type GetContentBetweenTwoChar<Str extends string, StartChar extends string, EndChar extends string> = [
+  S.Length<StartChar>,
+  S.Length<EndChar>
+] extends [1, 1]
   ? _Get<Str, StartChar, EndChar>
   : _Warn<S.Length<StartChar>, S.Length<EndChar>>;
 
@@ -42,42 +41,25 @@ type _Get<
   Str extends string,
   StartChar extends string,
   EndChar extends string,
-  DefaultStr extends string = "",
+  DefaultStr extends string = '',
   StrContentArray extends string[] = [],
   InRange extends boolean = false
 > = Str extends `${infer S}${infer RestS}`
   ? [S, InRange] extends [StartChar, false]
-    ? _Get<RestS, StartChar, EndChar, "", StrContentArray, true>
+    ? _Get<RestS, StartChar, EndChar, '', StrContentArray, true>
     : [S, InRange] extends [EndChar, true]
-    ? _Get<
-        RestS,
-        StartChar,
-        EndChar,
-        ``,
-        [DefaultStr, ...StrContentArray],
-        false
-      >
+    ? _Get<RestS, StartChar, EndChar, ``, [DefaultStr, ...StrContentArray], false>
     : InRange extends true
-    ? _Get<
-        RestS,
-        StartChar,
-        EndChar,
-        `${DefaultStr}${S}`,
-        StrContentArray,
-        true
-      >
-    : _Get<RestS, StartChar, EndChar, "", StrContentArray, false>
+    ? _Get<RestS, StartChar, EndChar, `${DefaultStr}${S}`, StrContentArray, true>
+    : _Get<RestS, StartChar, EndChar, '', StrContentArray, false>
   : StrContentArray[number];
 
-type _Warn<
-  SCharLength extends number,
-  ECharLength extends number
-> = SCharLength extends 0
-  ? "`StartChar` cannot be empty"
+type _Warn<SCharLength extends number, ECharLength extends number> = SCharLength extends 0
+  ? '`StartChar` cannot be empty'
   : N.Greater<SCharLength, 1> extends True
-  ? "The length of `StartChar` cannot be greater than 1"
+  ? 'The length of `StartChar` cannot be greater than 1'
   : ECharLength extends 0
-  ? "`EndChar` cannot be empty"
+  ? '`EndChar` cannot be empty'
   : N.Greater<ECharLength, 1> extends True
-  ? "The length of `EndChar` cannot be greater than 1"
+  ? 'The length of `EndChar` cannot be greater than 1'
   : never;
