@@ -2,12 +2,19 @@
   "name": "@mimi-utils/types",
   "version": "0.0.0",
   "description": "some practical types",
+  "keywords": [
+    "tools",
+    "types",
+    "typesafe",
+    "typescript"
+  ],
   "license": "MIT",
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "src"
   ],
   "scripts": {
     "test": "tsc",
@@ -20,6 +27,14 @@
   "devDependencies": {
     "@type-challenges/utils": "^0.1.1",
     "typedoc": "^0.22.17"
+  },
+  "homepage": "https://github.com/xlboy/mimi-utils/tree/master/packages/types",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xlboy/mimi-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xlboy/mimi-utils/issues"
   },
   "publishConfig": {
     "access": "public"
