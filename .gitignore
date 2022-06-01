@@ -7,4 +7,5 @@ yarn-error.log
 .history/
 
 dist/
+docs/
 
