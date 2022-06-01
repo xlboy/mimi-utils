@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": ".."
+    },
+    {
+      "name": "types",
+      "path": "../packages/types"
+    }
+  ],
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true,
+    "typescript.tsdk": "root/node_modules/typescript/lib"
+  }
+}
