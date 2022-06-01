@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "tsc",
-    "docs:build": "typedoc ./index.d.ts --tsconfig ./tsconfig.json"
+    "docs:build": "typedoc"
   },
   "dependencies": {
     "ts-toolbelt": "^9.6.0",
