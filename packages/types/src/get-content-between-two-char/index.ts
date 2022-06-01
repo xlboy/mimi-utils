@@ -12,7 +12,11 @@ import type { N, S } from 'ts-toolbelt';
   @param Str 字符串源
   @param StartChar 需要作为获取条件的第一个字符
   @param EndChar 需要作为获取条件的第二个字符
+  @category [String 类]
   @example
+
+  ```ts
+
   type Str = `hello, my name is {name}, are you from {country}?`;
 
   type Test1 = GetContentBetweenTwoChar<Str, "{", "}">;
@@ -28,6 +32,8 @@ import type { N, S } from 'ts-toolbelt';
     Expect<Equal<Test4, "`StartChar` cannot be empty">>,
     Expect<Equal<Test5, "`EndChar` cannot be empty">>,
   ];
+
+  ```
 
  */
 export type GetContentBetweenTwoChar<Str extends string, StartChar extends string, EndChar extends string> = [

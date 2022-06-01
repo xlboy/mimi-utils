@@ -1,1 +1,1 @@
-export { GetContentBetweenTwoChar } from './src/get-content-between-two-char';
+export type { GetContentBetweenTwoChar } from './src/get-content-between-two-char';

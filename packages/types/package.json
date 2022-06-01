@@ -10,14 +10,16 @@
     "index.d.ts"
   ],
   "scripts": {
-    "test": "tsc"
+    "test": "tsc",
+    "docs:build": "typedoc ./index.d.ts --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "type-fest": "^2.13.0",
-    "ts-toolbelt": "^9.6.0"
+    "ts-toolbelt": "^9.6.0",
+    "type-fest": "^2.13.0"
   },
   "devDependencies": {
-    "@type-challenges/utils": "^0.1.1"
+    "@type-challenges/utils": "^0.1.1",
+    "typedoc": "^0.22.17"
   },
   "publishConfig": {
     "access": "public"

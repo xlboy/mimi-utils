@@ -1,0 +1,7 @@
+{
+  "entryPoints": ["./index.d.ts"],
+  "out": "docs",
+  "name": "@mimi-utils/types",
+  "readme": "none",
+  "hideGenerator": true
+}
