@@ -8,10 +8,24 @@
 
 ---
 
+基于 [type-fest](https://github.com/sindresorhus/type-fest) 与 [ts-toolbelt](https://github.com/millsp/ts-toolbelt) 封装了一些实用的类型 (Some practical types are encapsulated based on [type-fest](#https://github.com/sindresorhus/type-fest) and [ts-toolbelt](https://github.com/millsp/ts-toolbelt))
+
+---
+
 [Document](https://mimi-utils-types.vercel.app/)
 
 ---
 
-基于 [type-fest](https://github.com/sindresorhus/type-fest) 与 [ts-toolbelt](https://github.com/millsp/ts-toolbelt) 封装了一些实用的类型
+## 用法 (Usage)
 
-(Some practical types are encapsulated based on [type-fest](#https://github.com/sindresorhus/type-fest) and [ts-toolbelt](https://github.com/millsp/ts-toolbelt))
+1. 安装 (install):
+
+```sh
+npm install @mimi-utils/types -D
+```
+
+2. 导入 (import):
+
+```ts
+import type { ... } from '@mimi-utils/types';
+```
