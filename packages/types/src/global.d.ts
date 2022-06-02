@@ -1,2 +1,2 @@
-declare type True = 1;
-declare type False = 0;
+declare type _MTrue = 1;
+declare type _MFalse = 0;

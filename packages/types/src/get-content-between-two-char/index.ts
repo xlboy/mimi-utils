@@ -62,10 +62,10 @@ type _Get<
 
 type _Warn<SCharLength extends number, ECharLength extends number> = SCharLength extends 0
   ? '`StartChar` cannot be empty'
-  : N.Greater<SCharLength, 1> extends True
+  : N.Greater<SCharLength, 1> extends _MTrue
   ? 'The length of `StartChar` cannot be greater than 1'
   : ECharLength extends 0
   ? '`EndChar` cannot be empty'
-  : N.Greater<ECharLength, 1> extends True
+  : N.Greater<ECharLength, 1> extends _MTrue
   ? 'The length of `EndChar` cannot be greater than 1'
   : never;
