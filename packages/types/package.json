@@ -28,6 +28,9 @@
     "@type-challenges/utils": "^0.1.1",
     "typedoc": "^0.22.17"
   },
+  "peerDependencies": {
+    "typescript": "4.7.x"
+  },
   "homepage": "https://github.com/xlboy/mimi-utils/tree/master/packages/types",
   "repository": {
     "type": "git",
