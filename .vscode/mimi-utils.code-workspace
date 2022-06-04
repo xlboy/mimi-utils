@@ -7,6 +7,10 @@
     {
       "name": "types",
       "path": "../packages/types"
+    },
+    {
+      "name": "super-status-box",
+      "path": "../packages/super-status-box"
     }
   ],
   "settings": {
@@ -15,5 +19,6 @@
     },
     "editor.formatOnSave": true,
     "typescript.tsdk": "root/node_modules/typescript/lib"
+    // "eslint.workingDirectories": ["../packages/super-status-box", "../packages/types"]
   }
 }

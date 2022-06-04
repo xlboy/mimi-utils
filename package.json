@@ -1,10 +1,9 @@
 {
   "name": "@mimi-utils/mimi-utils",
-  "version": "0.0.0",
   "description": "some useful tools",
   "author": "xlboy",
+  "type": "module",
   "license": "MIT",
-  "main": "index.js",
   "packageManager": ">=pnpm@7.0.0",
   "engines": {
     "node": ">=16.0.0"
@@ -14,22 +13,21 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.24.1",
+    "@types/jest": "^27.5.1",
+    "@types/lodash": "^4.14.182",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
+    "esbuild": "^0.14.39",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "esno": "*",
     "execa": "^6.1.0",
+    "jest": "^27.5.1",
+    "lodash": "^4.17.21",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xlboy/mimi-utils.git"
-  },
-  "homepage": "https://github.com/xlboy/mimi-utils#readme",
-  "bugs": {
-    "url": "https://github.com/xlboy/mimi-utils/issues"
+    "typescript": "^4.7.2",
+    "unbuild": "^0.7.4"
   }
 }

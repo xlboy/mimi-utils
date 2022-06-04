@@ -1,0 +1,33 @@
+{
+  "name": "@mimi-utils/super-status-box",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "一个围绕着 `业务数据状态` 而定制的库 - A library customized around `business data status'",
+  "keywords": [
+    "data-status",
+    "business-data-status",
+    "super-data-status",
+    "typescript"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "out"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "unbuild"
+  },
+  "homepage": "https://github.com/xlboy/mimi-utils/tree/master/packages/super-status-box",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xlboy/mimi-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xlboy/mimi-utils/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
