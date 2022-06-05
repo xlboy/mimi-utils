@@ -10,11 +10,19 @@
     "typescript"
   ],
   "license": "MIT",
-  "main": "index.js",
-  "types": "index.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "test": "jest",
     "build": "unbuild"

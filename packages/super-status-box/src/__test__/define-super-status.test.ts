@@ -1,10 +1,13 @@
 import { defineSuperStatus } from '../define-super-status';
-import type { SuperStatus } from '../types';
 
 jest.useFakeTimers();
 
 it('测试基本的状态定义', () => {
-  const status: SuperStatus[] = [{ key: 'online', unifyLabel: '在线', alias: '在线' }];
+  const statusOrigin = [
+    { key: '1', unifyLabel: 'A1 炸弹', alias: 'A1' },
+    { key: '2', unifyLabel: 'A2 炸弹', alias: 'A2' },
+    { key: '3', unifyLabel: 'A3 炸弹', alias: 'A3' }
+  ] as const;
 
-  expect(defineSuperStatus(status)).toMatchObject(status);
+  expect(defineSuperStatus(statusOrigin)).toMatchObject(statusOrigin);
 });

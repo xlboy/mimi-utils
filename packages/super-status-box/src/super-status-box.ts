@@ -1,4 +1,4 @@
-import type { SuperStatus, ParamsOfSuperStatusToOptions } from './types';
+import type { SuperStatus, GetOptionsParams } from './types';
 
 export class SuperStatusBox<
   S extends ReadonlyArray<SuperStatus>,
@@ -7,92 +7,91 @@ export class SuperStatusBox<
 > {
   constructor(private readonly status: S) {}
 
-  getAllKeys = () => Object.keys(this.status) as Array<UnionStatusKeys>;
-
-  getAllAliases = () => Object.values(this.status).map(item => item.alias) as Array<UnionStatusAliases>;
-
-  omitSpecifyAlias = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) =>
-    Object.values(this.status)
-      .map(item => item.alias)
-      .filter(alias => !aliases.includes(alias as T)) as Array<UnionStatusAliases>;
-
-  getAllOptions = (
-    params?: Omit<ParamsOfSuperStatusToOptions, 'specifySymbolMerge'> & {
-      eachMergeContent?: Record<string, any>;
-    }
-  ) => {
-    const {
-      returnAlias = false,
-      fieldNameOfKey = 'value',
-      fieldNameOfValue = 'label',
-      eachMergeContent = {}
-    } = params ?? {};
-
-    return Object.entries(this.status).map(([k, v]) => ({
-      [fieldNameOfKey]: k,
-      [fieldNameOfValue]: v.unifyLabel,
-      ...eachMergeContent,
-      ...(returnAlias ? { alias: v.alias as UnionStatusAliases } : {})
-    }));
+  keysOf = (keys: string[]) => {
+    this.status;
   };
 
-  getOptionsByKey = <T extends UnionStatusKeys>(
-    keys: ReadonlyArray<T>,
-    params?: ParamsOfSuperStatusToOptions<T, Record<string, any>>
-  ) => {
-    const { fieldNameOfKey = 'value', fieldNameOfValue = 'label', specifySymbolMerge = [] } = params ?? {};
+  // getAllKeys = () => Object.keys(this.status) as Array<UnionStatusKeys>;
 
-    return Object.entries(this.status)
-      .filter(([k]) => keys.includes(k as T))
-      .map(([k, v]) => ({
-        [fieldNameOfKey]: k,
-        [fieldNameOfValue]: v.unifyLabel,
-        ...specifySymbolMerge.find(([_key]) => _key === k)
-      }));
-  };
+  // getAllAliases = () => Object.values(this.status).map(item => item.alias) as Array<UnionStatusAliases>;
 
-  getOptionsByAliases = <T extends UnionStatusAliases>(
-    aliases: ReadonlyArray<T>,
-    params?: ParamsOfSuperStatusToOptions<T, Record<string, any>>
-  ) => {
-    const { fieldNameOfKey = 'value', fieldNameOfValue = 'label', specifySymbolMerge = [] } = params ?? {};
+  // getAllOptions = (
+  //   params?: Omit<GetOptionsParams, 'specifySymbolMerge'> & {
+  //     eachMergeContent?: Record<string, any>;
+  //   }
+  // ) => {
+  //   const {
+  //     returnAlias = false,
+  //     fieldNameOfKey = 'value',
+  //     fieldNameOfValue = 'label',
+  //     eachMergeContent = {}
+  //   } = params ?? {};
 
-    return Object.entries(this.status)
-      .filter(([, v]) => aliases.includes(v.alias as T))
-      .map(([k, v]) => ({
-        [fieldNameOfKey]: k,
-        [fieldNameOfValue]: v.unifyLabel,
-        ...specifySymbolMerge.find(([_aliases]) => _aliases === (v.alias as T))
-      }));
-  };
+  //   return Object.entries(this.status).map(([k, v]) => ({
+  //     [fieldNameOfKey]: k,
+  //     [fieldNameOfValue]: v.unifyLabel,
+  //     ...eachMergeContent,
+  //     ...(returnAlias ? { alias: v.alias as UnionStatusAliases } : {})
+  //   }));
+  // };
 
-  getAllEnum = () => {
-    return Object.entries(this.status).reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
-  };
+  // getOptionsByKeys = <T extends UnionStatusKeys>(
+  //   keys: ReadonlyArray<T>,
+  //   params?: GetOptionsParams<T, Record<string, any>>
+  // ) => {
+  //   const { fieldNameOfKey = 'value', fieldNameOfValue = 'label', specifySymbolMerge = [] } = params ?? {};
 
-  getEnumByKeys = <T extends UnionStatusKeys>(keys: ReadonlyArray<T>) => {
-    return Object.entries(this.status)
-      .filter(([k]) => keys.includes(k as T))
-      .reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
-  };
+  //   return Object.entries(this.status)
+  //     .filter(([k]) => keys.includes(k as T))
+  //     .map(([k, v]) => ({
+  //       [fieldNameOfKey]: k,
+  //       [fieldNameOfValue]: v.unifyLabel,
+  //       ...specifySymbolMerge.find(([_key]) => _key === k)
+  //     }));
+  // };
 
-  getEnumByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
-    return Object.entries(this.status)
-      .filter(([, v]) => aliases.includes(v.alias as T))
-      .reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
-  };
+  // getOptionsByAliases = <T extends UnionStatusAliases>(
+  //   aliases: ReadonlyArray<T>,
+  //   params?: GetOptionsParams<T, Record<string, any>>
+  // ) => {
+  //   const { fieldNameOfKey = 'value', fieldNameOfValue = 'label', specifySymbolMerge = [] } = params ?? {};
 
-  findKeyByAlias = <T extends UnionStatusAliases>(alias: T) => {
-    const [[key]] = Object.entries(this.status).filter(([, v]) => (v.alias as T) === alias);
+  //   return Object.entries(this.status)
+  //     .filter(([, v]) => aliases.includes(v.alias as T))
+  //     .map(([k, v]) => ({
+  //       [fieldNameOfKey]: k,
+  //       [fieldNameOfValue]: v.unifyLabel,
+  //       ...specifySymbolMerge.find(([_aliases]) => _aliases === (v.alias as T))
+  //     }));
+  // };
 
-    return key;
-  };
+  // getAllEnum = () => {
+  //   return Object.entries(this.status).reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
+  // };
 
-  findKeysByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
-    const keys = Object.entries(this.status)
-      .filter(([, v]) => aliases.includes(v.alias as T))
-      .map(([k]) => k);
+  // getEnumByKeys = <T extends UnionStatusKeys>(keys: ReadonlyArray<T>) => {
+  //   return Object.entries(this.status)
+  //     .filter(([k]) => keys.includes(k as T))
+  //     .reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
+  // };
 
-    return keys;
-  };
+  // getEnumByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
+  //   return Object.entries(this.status)
+  //     .filter(([, v]) => aliases.includes(v.alias as T))
+  //     .reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
+  // };
+
+  // findKeyByAlias = <T extends UnionStatusAliases>(alias: T) => {
+  //   const [[key]] = Object.entries(this.status).filter(([, v]) => (v.alias as T) === alias);
+
+  //   return key;
+  // };
+
+  // findKeysByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
+  //   const keys = Object.entries(this.status)
+  //     .filter(([, v]) => aliases.includes(v.alias as T))
+  //     .map(([k]) => k);
+
+  //   return keys;
+  // };
 }
