@@ -8,7 +8,7 @@ type VerifyStatusAliasRepeat<T extends ReadonlyArray<SuperStatus>> = L.Length<
   : false;
 
 export function defineSuperStatus<T extends ReadonlyArray<SuperStatus>>(
-  superStatus: T extends (VerifyStatusAliasRepeat<T> extends true ? T : false) ? T : '别名不可重复哦'
+  superStatus: T extends (VerifyStatusAliasRepeat<T> extends true ? T : false) ? T : '别名不可重复'
 ) {
-  return superStatus;
+  return superStatus as typeof superStatus & { readonly '_必须通过 defineSuperStatus 函数创建_': unique symbol };
 }

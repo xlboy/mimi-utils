@@ -1,7 +1,7 @@
 import type { SuperStatus, GetOptionsParams } from './types';
 
 export class SuperStatusBox<
-  S extends ReadonlyArray<SuperStatus>,
+  S extends ReturnType<typeof defineSuperStatus>,
   UnionStatusKeys extends S[number]['key'] = S[number]['key'],
   UnionStatusAliases extends S[number]['alias'] = S[number]['alias']
 > {
