@@ -18,3 +18,10 @@ export type GetOptionsParams<T = any, D = any> = {
   fieldNameOfValue?: string;
   specifySymbolMerge: Array<[T, D]>;
 };
+
+export type GetEnumOptions<T> = {
+  /**
+   * 要对 Enum 内容进行替换的分组
+   */
+  groupToReplace: ReadonlyArray<[statusAlias: T, nameToReplace: string]>;
+};

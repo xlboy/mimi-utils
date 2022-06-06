@@ -1,10 +1,10 @@
-import type { SuperStatus, GetOptionsParams } from './types';
+import type { SuperStatus, GetOptionsParams, GetEnumOptions } from './types';
 import type { defineSuperStatus } from './define-super-status';
 
 // type c = Exclude<UnionStatusAliases, T>
 export class SuperStatusBox<
   S extends ReturnType<typeof defineSuperStatus>,
-  UnionStatusKeys extends S[number]['key'] = S[number]['key'],
+  // UnionStatusKeys extends S[number]['key'] = S[number]['key'],
   UnionStatusAliases extends S[number]['alias'] = S[number]['alias']
 > {
   constructor(private readonly status: S) {}
@@ -27,10 +27,6 @@ export class SuperStatusBox<
       .filter(item => !aliases.includes(item.alias as any))
       .map(item => item.alias as UnionStatusAliases) as any;
   };
-
-  // getAllKeys = () => Object.keys(this.status) as Array<UnionStatusKeys>;
-
-  // getAllAliases = () => Object.values(this.status).map(item => item.alias) as Array<UnionStatusAliases>;
 
   // getAllOptions = (
   //   params?: Omit<GetOptionsParams, 'specifySymbolMerge'> & {
@@ -82,15 +78,37 @@ export class SuperStatusBox<
   //     }));
   // };
 
-  // getAllEnum = () => {
-  //   return Object.entries(this.status).reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
-  // };
+  /** 
+   获取所有枚举，枚举类型为：Record<string, string> 
+   @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L39}
 
-  // getEnumByKeys = <T extends UnionStatusKeys>(keys: ReadonlyArray<T>) => {
-  //   return Object.entries(this.status)
-  //     .filter(([k]) => keys.includes(k as T))
-  //     .reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
-  // };
+  */
+  getAllEnum = (options?: GetEnumOptions<UnionStatusAliases>) => {
+    const hasOptions = options !== undefined;
+    const { groupToReplace = [] } = options ?? {};
+
+    return this.status.reduce((preValue, currentValue) => {
+      const mergeSource: Record<string, string> = {
+        // 默认赋值，可能会因为「hasOptions」而顶替掉 Value
+        [currentValue.key]: currentValue.unifyLabel
+      };
+
+      if (hasOptions) {
+        const matchingReplaceSource = groupToReplace.find(([statusAlias]) => statusAlias === currentValue.alias);
+
+        if (matchingReplaceSource) {
+          const [, textToReplace] = matchingReplaceSource;
+
+          mergeSource[currentValue.key] = textToReplace;
+        }
+      }
+
+      return {
+        ...preValue,
+        ...mergeSource
+      };
+    }, {} as Record<UnionStatusAliases, string>);
+  };
 
   // getEnumByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
   //   return Object.entries(this.status)
