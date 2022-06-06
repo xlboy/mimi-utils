@@ -17,7 +17,7 @@ describe('测试「状态别名」的筛选', () => {
 
     expect(origin).toMatchObject(target);
 
-    type Case = Expect<Equal<typeof target[number], typeof target[number]>>;
+    type Case = Expect<Equal<typeof origin[number], typeof target[number]>>;
   });
 
   it('别名的挑选（pick）', () => {
@@ -26,7 +26,7 @@ describe('测试「状态别名」的筛选', () => {
 
     expect(origin).toMatchObject(target);
 
-    type Case = Expect<Equal<typeof target[number], typeof target[number]>>;
+    type Case = Expect<Equal<typeof origin[number], typeof target[number]>>;
   });
 
   it('别名的排除（omit）', () => {
@@ -35,6 +35,6 @@ describe('测试「状态别名」的筛选', () => {
 
     expect(origin).toMatchObject(target);
 
-    type Case = Expect<Equal<typeof target[number], typeof target[number]>>;
+    type Case = Expect<Equal<typeof origin[number], typeof target[number]>>;
   });
 });
