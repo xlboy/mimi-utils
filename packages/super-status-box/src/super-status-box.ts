@@ -1,5 +1,7 @@
 import type { SuperStatus, GetOptionsParams } from './types';
+import type { defineSuperStatus } from './define-super-status';
 
+// type c = Exclude<UnionStatusAliases, T>
 export class SuperStatusBox<
   S extends ReturnType<typeof defineSuperStatus>,
   UnionStatusKeys extends S[number]['key'] = S[number]['key'],
@@ -7,8 +9,23 @@ export class SuperStatusBox<
 > {
   constructor(private readonly status: S) {}
 
-  keysOf = (keys: string[]) => {
-    this.status;
+  /** 返回所有别名 */
+  aliasOf = (): UnionStatusAliases[] => {
+    return this.status.map(item => item.alias as UnionStatusAliases);
+  };
+
+  /** 挑选部分别名 */
+  pickAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>): ReadonlyArray<T> => {
+    return this.status.filter(item => aliases.includes(item.alias as T)).map(item => item.alias as T);
+  };
+
+  /** 排除部分别名，返回未被排除的那一部分 */
+  omitAliases = <T extends UnionStatusAliases>(
+    aliases: ReadonlyArray<T>
+  ): ReadonlyArray<Exclude<UnionStatusAliases, T>> => {
+    return this.status
+      .filter(item => !aliases.includes(item.alias as any))
+      .map(item => item.alias as UnionStatusAliases) as any;
   };
 
   // getAllKeys = () => Object.keys(this.status) as Array<UnionStatusKeys>;
