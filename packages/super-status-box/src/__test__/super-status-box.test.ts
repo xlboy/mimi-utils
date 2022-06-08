@@ -49,14 +49,14 @@ describe('状态转枚举', () => {
 
   describe('取所有枚举', () => {
     it('不传参，默认取所有', () => {
-      expect(statusOrigin.getAllEnum()).toMatchObject({
+      expect(statusOrigin.toEnum()).toMatchObject({
         'a-key': 'a-别名',
         'b-key': 'b-别名'
       });
     });
 
     it('传 options.groupToReplace 参，替换某个状态对应的文案（unifyLabel）', () => {
-      expect(statusOrigin.getAllEnum({ groupToReplace: [['a-alias', '替换后的A别名']] })).toMatchObject({
+      expect(statusOrigin.toEnum({ groupToReplace: [['a-alias', '替换后的A别名']] })).toMatchObject({
         'a-key': '替换后的A别名',
         'b-key': 'b-别名'
       });
@@ -65,14 +65,14 @@ describe('状态转枚举', () => {
 
   describe('按别名取相应的枚举', () => {
     it('传指定别名', () => {
-      expect(statusOrigin.getEnumByAliases(['a-alias'])).toMatchObject({
+      expect(statusOrigin.toEnumByAliases(['a-alias'])).toMatchObject({
         'a-key': 'a-别名'
       });
     });
 
     it('传指定别名，以及传 options.groupToReplace 参来替换某个状态对应的文案（unifyLabel）', () => {
       expect(
-        statusOrigin.getEnumByAliases(['b-alias'], {
+        statusOrigin.toEnumByAliases(['b-alias'], {
           groupToReplace: [['b-alias', '替换了的B']]
         })
       ).toMatchObject({

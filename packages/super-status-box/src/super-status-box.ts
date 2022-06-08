@@ -1,5 +1,5 @@
 import type { defineSuperStatus } from './define-super-status';
-import type { OptionsOfGetEnum } from './types';
+import type { ToEnumOptions, ToListOptions } from './types';
 import type { L } from 'ts-toolbelt';
 
 export class SuperStatusBox<
@@ -26,6 +26,20 @@ export class SuperStatusBox<
     return this.status
       .filter(item => !aliases.includes(item.alias as any))
       .map(item => item.alias as UnionStatusAliases) as any;
+  };
+
+  toList = (options?: ToListOptions) => {
+    const hasOptions = options !== undefined;
+
+    return hasOptions ? this.statusConverToList(this.status) : 1;
+  };
+
+  // TODO: 类型待完善
+  private statusConverToList = (status: S) => {
+    return status.map(item => ({
+      label: item.unifyLabel,
+      value: item.key
+    }));
   };
 
   // getAllOptions = (
@@ -79,22 +93,22 @@ export class SuperStatusBox<
   // };
 
   /**
-   * 获取所有枚举，枚举类型为：Record<string, string>
+   * 转成枚举
    * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L39}
    */
-  getAllEnum = (options?: OptionsOfGetEnum<UnionStatusAliases>) => {
+  toEnum = (options?: ToEnumOptions<UnionStatusAliases>) => {
     const hasOptions = options !== undefined;
 
     return hasOptions ? this.statusConverToEnumByOptions(this.status, options!) : this.statusConverToEnum(this.status);
   };
 
   /**
-   * 根据别名获取相应的枚举
+   * 根据别名转成相应的枚举
    * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L66}
    */
-  getEnumByAliases = <T extends UnionStatusAliases>(
+  toEnumByAliases = <T extends UnionStatusAliases>(
     aliases: ReadonlyArray<T>,
-    options?: OptionsOfGetEnum<UnionStatusAliases>
+    options?: ToEnumOptions<UnionStatusAliases>
   ) => {
     const hasOptions = options !== undefined;
 
@@ -105,7 +119,7 @@ export class SuperStatusBox<
       : this.statusConverToEnum(filteredStatusByAliases);
   };
 
-  private statusConverToEnumByOptions = (status: S, options: OptionsOfGetEnum<UnionStatusAliases>) => {
+  private statusConverToEnumByOptions = (status: S, options: ToEnumOptions<UnionStatusAliases>) => {
     const { groupToReplace } = options;
 
     return status.reduce((preValue, currentValue) => {
