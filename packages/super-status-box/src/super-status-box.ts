@@ -78,29 +78,48 @@ export class SuperStatusBox<
   //     }));
   // };
 
-  /** 
-   获取所有枚举，枚举类型为：Record<string, string> 
-   @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L39}
-
-  */
+  /**
+   * 获取所有枚举，枚举类型为：Record<string, string>
+   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L39}
+   */
   getAllEnum = (options?: GetEnumOptions<UnionStatusAliases>) => {
     const hasOptions = options !== undefined;
-    const { groupToReplace = [] } = options ?? {};
 
-    return this.status.reduce((preValue, currentValue) => {
+    return hasOptions ? this.statusConverToEnumByOptions(this.status, options!) : this.statusConverToEnum(this.status);
+  };
+
+  /**
+   * 根据别名获取相应的枚举
+   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L66}
+   */
+  getEnumByAliases = <T extends UnionStatusAliases>(
+    aliases: ReadonlyArray<T>,
+    options?: GetEnumOptions<UnionStatusAliases>
+  ) => {
+    const hasOptions = options !== undefined;
+
+    const filteredStatusByAliases = this.status.filter(item => aliases.includes(item.alias as T)) as unknown as S;
+
+    return hasOptions
+      ? this.statusConverToEnumByOptions(filteredStatusByAliases, options!)
+      : this.statusConverToEnum(filteredStatusByAliases);
+  };
+
+  private statusConverToEnumByOptions = (status: S, options: GetEnumOptions<UnionStatusAliases>) => {
+    const { groupToReplace } = options;
+
+    return status.reduce((preValue, currentValue) => {
       const mergeSource: Record<string, string> = {
-        // 默认赋值，可能会因为「hasOptions」而顶替掉 Value
+        // 默认赋值，可能会因为「matchingReplaceSource」而顶替掉 Value
         [currentValue.key]: currentValue.unifyLabel
       };
 
-      if (hasOptions) {
-        const matchingReplaceSource = groupToReplace.find(([statusAlias]) => statusAlias === currentValue.alias);
+      const matchingReplaceSource = groupToReplace.find(([statusAlias]) => statusAlias === currentValue.alias);
 
-        if (matchingReplaceSource) {
-          const [, textToReplace] = matchingReplaceSource;
+      if (matchingReplaceSource) {
+        const [, textToReplace] = matchingReplaceSource;
 
-          mergeSource[currentValue.key] = textToReplace;
-        }
+        mergeSource[currentValue.key] = textToReplace;
       }
 
       return {
@@ -110,11 +129,14 @@ export class SuperStatusBox<
     }, {} as Record<UnionStatusAliases, string>);
   };
 
-  // getEnumByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
-  //   return Object.entries(this.status)
-  //     .filter(([, v]) => aliases.includes(v.alias as T))
-  //     .reduce((preV, [k, v]) => ({ ...preV, [k]: v.unifyLabel }), {});
-  // };
+  private statusConverToEnum = (status: S) => {
+    return status.reduce((preValue, currentValue) => {
+      return {
+        ...preValue,
+        [currentValue.key]: currentValue.unifyLabel
+      };
+    }, {} as Record<UnionStatusAliases, string>);
+  };
 
   // findKeyByAlias = <T extends UnionStatusAliases>(alias: T) => {
   //   const [[key]] = Object.entries(this.status).filter(([, v]) => (v.alias as T) === alias);
