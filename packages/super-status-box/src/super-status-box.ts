@@ -1,5 +1,5 @@
 import type { defineSuperStatus } from './define-super-status';
-import type { GetEnumOptions } from './types';
+import type { OptionsOfGetEnum } from './types';
 import type { L } from 'ts-toolbelt';
 
 export class SuperStatusBox<
@@ -82,7 +82,7 @@ export class SuperStatusBox<
    * 获取所有枚举，枚举类型为：Record<string, string>
    * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L39}
    */
-  getAllEnum = (options?: GetEnumOptions<UnionStatusAliases>) => {
+  getAllEnum = (options?: OptionsOfGetEnum<UnionStatusAliases>) => {
     const hasOptions = options !== undefined;
 
     return hasOptions ? this.statusConverToEnumByOptions(this.status, options!) : this.statusConverToEnum(this.status);
@@ -94,7 +94,7 @@ export class SuperStatusBox<
    */
   getEnumByAliases = <T extends UnionStatusAliases>(
     aliases: ReadonlyArray<T>,
-    options?: GetEnumOptions<UnionStatusAliases>
+    options?: OptionsOfGetEnum<UnionStatusAliases>
   ) => {
     const hasOptions = options !== undefined;
 
@@ -105,7 +105,7 @@ export class SuperStatusBox<
       : this.statusConverToEnum(filteredStatusByAliases);
   };
 
-  private statusConverToEnumByOptions = (status: S, options: GetEnumOptions<UnionStatusAliases>) => {
+  private statusConverToEnumByOptions = (status: S, options: OptionsOfGetEnum<UnionStatusAliases>) => {
     const { groupToReplace } = options;
 
     return status.reduce((preValue, currentValue) => {

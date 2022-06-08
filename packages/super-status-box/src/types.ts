@@ -19,7 +19,7 @@ export type GetOptionsParams<T = any, D = any> = {
   specifySymbolMerge: Array<[T, D]>;
 };
 
-export type GetEnumOptions<T> = {
+export type OptionsOfGetEnum<T> = {
   /**
    * 要对 Enum 内容进行替换的分组
    */
