@@ -81,3 +81,27 @@ describe('状态转枚举', () => {
     });
   });
 });
+
+describe('查找 status-key', () => {
+  const definedStatus = defineSuperStatus([
+    { alias: 'a-alias', key: 'a-key', unifyLabel: 'a-别名' },
+    { alias: 'b-alias', key: 'b-key', unifyLabel: 'b-别名' },
+    { alias: 'c-alias', key: 'c-key', unifyLabel: 'c-别名' }
+  ] as const);
+
+  const statusOrigin = new SuperStatusBox(definedStatus);
+
+  it('根据单个别名查找', () => {
+    const foundKey = statusOrigin.findKeyByAlias('b-alias');
+
+    expect(foundKey).toBe('b-key');
+
+    type Case = Expect<Equal<typeof foundKey, 'b-key' | undefined>>;
+  });
+
+  it('根据多个别名查找', () => {
+    const foundKeys = statusOrigin.findKeysByAliases(['b-alias', 'c-alias']);
+
+    expect(foundKeys).toMatchObject(['b-key', 'c-key']);
+  });
+});

@@ -1,10 +1,10 @@
-import type { SuperStatus, GetOptionsParams, GetEnumOptions } from './types';
 import type { defineSuperStatus } from './define-super-status';
+import type { GetEnumOptions } from './types';
+import type { L } from 'ts-toolbelt';
 
-// type c = Exclude<UnionStatusAliases, T>
 export class SuperStatusBox<
   S extends ReturnType<typeof defineSuperStatus>,
-  // UnionStatusKeys extends S[number]['key'] = S[number]['key'],
+  UnionStatusKeys extends S[number]['key'] = S[number]['key'],
   UnionStatusAliases extends S[number]['alias'] = S[number]['alias']
 > {
   constructor(private readonly status: S) {}
@@ -138,17 +138,25 @@ export class SuperStatusBox<
     }, {} as Record<UnionStatusAliases, string>);
   };
 
-  // findKeyByAlias = <T extends UnionStatusAliases>(alias: T) => {
-  //   const [[key]] = Object.entries(this.status).filter(([, v]) => (v.alias as T) === alias);
+  /**
+   * 根据单个别名查找相应的 status-key
+   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L94}
+   */
+  findKeyByAlias = <T extends UnionStatusAliases>(alias: T): S[L.SelectKeys<S, { alias: T }>]['key'] | undefined => {
+    const foundKey = this.status.find(item => item.alias === alias);
 
-  //   return key;
-  // };
+    return foundKey?.key as any;
+  };
 
-  // findKeysByAliases = <T extends UnionStatusAliases>(aliases: ReadonlyArray<T>) => {
-  //   const keys = Object.entries(this.status)
-  //     .filter(([, v]) => aliases.includes(v.alias as T))
-  //     .map(([k]) => k);
+  /**
+   * 根据多个别名查找相应的 status-key
+   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L102}
+   */
+  findKeysByAliases = <T extends ReadonlyArray<UnionStatusAliases>>(
+    aliases: T
+  ): /** TODO: 此类型待完善 */ UnionStatusKeys[] => {
+    const foundKeys = this.status.filter(item => aliases.includes(item.alias as any)).map(item => item.key);
 
-  //   return keys;
-  // };
+    return foundKeys as any;
+  };
 }
