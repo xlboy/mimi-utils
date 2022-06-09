@@ -159,6 +159,24 @@ describe('状态转列表', () => {
         { [fieldNameOfKey]: 'c-key', label: 'c-别名' }
       ]);
     });
+
+    it('传 options 中的 fieldNameOfKey、returnAlias、fieldNameOfLabel、groupToReplace 参进行混合测试', () => {
+      const fieldNameOfLabel = 'fieldName';
+      const fieldNameOfKey = 'kkk';
+
+      expect(
+        statusOrigin.toList({
+          fieldNameOfLabel,
+          fieldNameOfKey,
+          returnAlias: true,
+          groupToReplace: [['c-alias', '我改']]
+        })
+      ).toMatchObject([
+        { [fieldNameOfKey]: 'a-key', [fieldNameOfLabel]: 'a-别名', alias: 'a-alias' },
+        { [fieldNameOfKey]: 'b-key', [fieldNameOfLabel]: 'b-别名', alias: 'b-alias' },
+        { [fieldNameOfKey]: 'c-key', [fieldNameOfLabel]: '我改', alias: 'c-alias' }
+      ]);
+    });
   });
 
   describe('按别名取相应的列表', () => {
@@ -197,6 +215,26 @@ describe('状态转列表', () => {
 
       expect(statusOrigin.toListByAliases(['a-alias'], { fieldNameOfKey })).toMatchObject([
         { [fieldNameOfKey]: 'a-key', label: 'a-别名' }
+      ]);
+    });
+
+    it('传指定别名，传 options 中的 fieldNameOfKey、returnAlias、fieldNameOfLabel、groupToReplace 参进行混合测试', () => {
+      const fieldNameOfKey = 'status';
+      const fieldNameOfLabel = 'my-label';
+
+      expect(
+        statusOrigin.toListByAliases(['a-alias', 'c-alias'], {
+          fieldNameOfKey,
+          fieldNameOfLabel,
+          returnAlias: true,
+          groupToReplace: [
+            ['a-alias', '改后的a'],
+            ['c-alias', '改后的c']
+          ]
+        })
+      ).toMatchObject([
+        { [fieldNameOfKey]: 'a-key', [fieldNameOfLabel]: '改后的a', alias: 'a-alias' },
+        { [fieldNameOfKey]: 'c-key', [fieldNameOfLabel]: '改后的c', alias: 'c-alias' }
       ]);
     });
   });
