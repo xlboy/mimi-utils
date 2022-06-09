@@ -1,6 +1,6 @@
 export type SuperStatus = { key: string | number; alias: string; unifyLabel: string };
 
-export type ToListOptions = {
+export type ToListOptions<T> = {
   /**
    * 是否在 List 中返回 `alias`
    */
@@ -25,6 +25,10 @@ export type ToListOptions = {
    * // 则转成 -> [{ "label": "one-label" }]
    */
   fieldNameOfLabel?: string;
+  /**
+   * 要对 List 内容进行替换的分组
+   */
+  groupToReplace?: ReadonlyArray<[statusAlias: T, nameToReplace: string]>;
 };
 
 export type ToEnumOptions<T> = {

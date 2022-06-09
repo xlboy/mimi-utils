@@ -1,6 +1,7 @@
 import type { defineSuperStatus } from './define-super-status';
 import type { ToEnumOptions, ToListOptions } from './types';
 import type { L } from 'ts-toolbelt';
+import _ from 'lodash';
 
 export class SuperStatusBox<
   S extends ReturnType<typeof defineSuperStatus>,
@@ -28,10 +29,23 @@ export class SuperStatusBox<
       .map(item => item.alias as UnionStatusAliases) as any;
   };
 
-  toList = (options?: ToListOptions) => {
+  toList = (options?: ToListOptions<UnionStatusAliases>) => {
     const hasOptions = options !== undefined;
 
-    return hasOptions ? this.statusConverToList(this.status) : 1;
+    return hasOptions ? this.statusConverToListByOptions(this.status, options!) : this.statusConverToList(this.status);
+  };
+
+  toListByAliases = <T extends UnionStatusAliases>(
+    aliases: ReadonlyArray<T>,
+    options?: ToListOptions<typeof aliases[number]>
+  ) => {
+    const hasOptions = options !== undefined;
+
+    const filteredStatusByAliases = this.status.filter(item => aliases.includes(item.alias as T)) as unknown as S;
+
+    return hasOptions
+      ? this.statusConverToListByOptions(filteredStatusByAliases, options as any)
+      : this.statusConverToList(filteredStatusByAliases);
   };
 
   // TODO: 类型待完善
@@ -42,55 +56,30 @@ export class SuperStatusBox<
     }));
   };
 
-  // getAllOptions = (
-  //   params?: Omit<GetOptionsParams, 'specifySymbolMerge'> & {
-  //     eachMergeContent?: Record<string, any>;
-  //   }
-  // ) => {
-  //   const {
-  //     returnAlias = false,
-  //     fieldNameOfKey = 'value',
-  //     fieldNameOfValue = 'label',
-  //     eachMergeContent = {}
-  //   } = params ?? {};
+  // TODO: 类型待完善
+  private statusConverToListByOptions = (status: S, options: ToListOptions<UnionStatusAliases>) => {
+    const { fieldNameOfKey = 'value', fieldNameOfLabel = 'label', returnAlias, groupToReplace = [] } = options;
 
-  //   return Object.entries(this.status).map(([k, v]) => ({
-  //     [fieldNameOfKey]: k,
-  //     [fieldNameOfValue]: v.unifyLabel,
-  //     ...eachMergeContent,
-  //     ...(returnAlias ? { alias: v.alias as UnionStatusAliases } : {})
-  //   }));
-  // };
+    return status.map(item => {
+      const mergeSource: Record<string, any> = {
+        [fieldNameOfKey]: item.key,
+        // 默认赋值，可能会因为「groupToReplace」而改变
+        [fieldNameOfLabel]: item.unifyLabel
+      };
 
-  // getOptionsByKeys = <T extends UnionStatusKeys>(
-  //   keys: ReadonlyArray<T>,
-  //   params?: GetOptionsParams<T, Record<string, any>>
-  // ) => {
-  //   const { fieldNameOfKey = 'value', fieldNameOfValue = 'label', specifySymbolMerge = [] } = params ?? {};
+      if (returnAlias) mergeSource['alias'] = item.alias;
 
-  //   return Object.entries(this.status)
-  //     .filter(([k]) => keys.includes(k as T))
-  //     .map(([k, v]) => ({
-  //       [fieldNameOfKey]: k,
-  //       [fieldNameOfValue]: v.unifyLabel,
-  //       ...specifySymbolMerge.find(([_key]) => _key === k)
-  //     }));
-  // };
+      const matchingReplaceSource = groupToReplace.find(([statusAlias]) => statusAlias === item.alias);
 
-  // getOptionsByAliases = <T extends UnionStatusAliases>(
-  //   aliases: ReadonlyArray<T>,
-  //   params?: GetOptionsParams<T, Record<string, any>>
-  // ) => {
-  //   const { fieldNameOfKey = 'value', fieldNameOfValue = 'label', specifySymbolMerge = [] } = params ?? {};
+      if (matchingReplaceSource) {
+        const [, textToReplace] = matchingReplaceSource;
 
-  //   return Object.entries(this.status)
-  //     .filter(([, v]) => aliases.includes(v.alias as T))
-  //     .map(([k, v]) => ({
-  //       [fieldNameOfKey]: k,
-  //       [fieldNameOfValue]: v.unifyLabel,
-  //       ...specifySymbolMerge.find(([_aliases]) => _aliases === (v.alias as T))
-  //     }));
-  // };
+        mergeSource[fieldNameOfLabel] = textToReplace;
+      }
+
+      return mergeSource;
+    });
+  };
 
   /**
    * 转成枚举
@@ -124,7 +113,7 @@ export class SuperStatusBox<
 
     return status.reduce((preValue, currentValue) => {
       const mergeSource: Record<string, string> = {
-        // 默认赋值，可能会因为「matchingReplaceSource」而顶替掉 Value
+        // 默认赋值，可能会因为「groupToReplace」而改变
         [currentValue.key]: currentValue.unifyLabel
       };
 
