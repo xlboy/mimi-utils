@@ -28,12 +28,12 @@ export type ToListOptions<T> = {
   /**
    * 要对 List 内容进行替换的分组
    */
-  groupToReplace?: ReadonlyArray<[statusAlias: T, nameToReplace: string]>;
+  groupToReplace?: ReadonlyArray<[statusAlias: T, labelToReplace: string]>;
 };
 
 export type ToEnumOptions<T> = {
   /**
    * 要对 Enum 内容进行替换的分组
    */
-  groupToReplace: ReadonlyArray<[statusAlias: T, nameToReplace: string]>;
+  groupToReplace: ReadonlyArray<[statusAlias: T, labelToReplace: string]>;
 };

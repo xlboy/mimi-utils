@@ -1,7 +1,6 @@
+import type { L } from 'ts-toolbelt';
 import type { defineSuperStatus } from './define-super-status';
 import type { ToEnumOptions, ToListOptions } from './types';
-import type { L } from 'ts-toolbelt';
-import _ from 'lodash';
 
 export class SuperStatusBox<
   S extends ReturnType<typeof defineSuperStatus>,
@@ -29,12 +28,14 @@ export class SuperStatusBox<
       .map(item => item.alias as UnionStatusAliases) as any;
   };
 
+  /** 转成列表 */
   toList = (options?: ToListOptions<UnionStatusAliases>) => {
     const hasOptions = options !== undefined;
 
     return hasOptions ? this.statusConverToListByOptions(this.status, options!) : this.statusConverToList(this.status);
   };
 
+  /** 根据别名转成相应的列表 */
   toListByAliases = <T extends UnionStatusAliases>(
     aliases: ReadonlyArray<T>,
     options?: ToListOptions<typeof aliases[number]>
@@ -72,29 +73,23 @@ export class SuperStatusBox<
       const matchingReplaceSource = groupToReplace.find(([statusAlias]) => statusAlias === item.alias);
 
       if (matchingReplaceSource) {
-        const [, textToReplace] = matchingReplaceSource;
+        const [, labelToReplace] = matchingReplaceSource;
 
-        mergeSource[fieldNameOfLabel] = textToReplace;
+        mergeSource[fieldNameOfLabel] = labelToReplace;
       }
 
       return mergeSource;
     });
   };
 
-  /**
-   * 转成枚举
-   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L39}
-   */
+  /** 转成枚举 */
   toEnum = (options?: ToEnumOptions<UnionStatusAliases>) => {
     const hasOptions = options !== undefined;
 
     return hasOptions ? this.statusConverToEnumByOptions(this.status, options!) : this.statusConverToEnum(this.status);
   };
 
-  /**
-   * 根据别名转成相应的枚举
-   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L66}
-   */
+  /** 根据别名转成相应的枚举 */
   toEnumByAliases = <T extends UnionStatusAliases>(
     aliases: ReadonlyArray<T>,
     options?: ToEnumOptions<UnionStatusAliases>
@@ -120,9 +115,9 @@ export class SuperStatusBox<
       const matchingReplaceSource = groupToReplace.find(([statusAlias]) => statusAlias === currentValue.alias);
 
       if (matchingReplaceSource) {
-        const [, textToReplace] = matchingReplaceSource;
+        const [, labelToReplace] = matchingReplaceSource;
 
-        mergeSource[currentValue.key] = textToReplace;
+        mergeSource[currentValue.key] = labelToReplace;
       }
 
       return {
@@ -141,20 +136,14 @@ export class SuperStatusBox<
     }, {} as Record<UnionStatusAliases, string>);
   };
 
-  /**
-   * 根据单个别名查找相应的 status-key
-   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L94}
-   */
+  /** 根据单个别名查找相应的 status-key */
   findKeyByAlias = <T extends UnionStatusAliases>(alias: T): S[L.SelectKeys<S, { alias: T }>]['key'] | undefined => {
     const foundKey = this.status.find(item => item.alias === alias);
 
     return foundKey?.key as any;
   };
 
-  /**
-   * 根据多个别名查找相应的 status-key
-   * @see 查看测试用例以帮助理解 -> {@link https://github.com/xlboy/mimi-utils/blob/master/packages/super-status-box/src/__test__/super-status-box.test.ts#L102}
-   */
+  /** 根据多个别名查找相应的 status-key */
   findKeysByAliases = <T extends ReadonlyArray<UnionStatusAliases>>(
     aliases: T
   ): /** TODO: 此类型待完善 */ UnionStatusKeys[] => {
