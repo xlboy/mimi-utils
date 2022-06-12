@@ -181,9 +181,7 @@ describe('状态转列表', () => {
 
   describe('按别名取相应的列表', () => {
     it('传指定别名', () => {
-      expect(statusOrigin.toListByAliases(['a-alias'])).toMatchObject({
-        'a-key': 'a-别名'
-      });
+      expect(statusOrigin.toListByAliases(['a-alias'])).toMatchObject([{ label: 'a-别名', value: 'a-key' }]);
     });
 
     it('传指定别名，以及传 options.groupToReplace 参来替换某个状态对应的文案（unifyLabel）', () => {
