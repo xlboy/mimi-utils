@@ -3,6 +3,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": 2,
+    "@typescript-eslint/no-unused-vars": 1,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/camelcase": 0,
@@ -17,7 +18,22 @@
     "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/no-namespace": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "prefer-spread": 0,
-    "no-var": 0
+    "@typescript-eslint/no-misused-new": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "no-var": 0,
+    /*
+      https://eslint.org/docs/rules/padding-line-between-statements#rule-details
+      and
+      https://github.com/typescript-eslint/typescript-eslint/blob/v4.32.0/packages/eslint-plugin/docs/rules/padding-line-between-statements.md
+    */
+    "@typescript-eslint/padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": ["const", "let", "var", "block-like", "import", "interface"], "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": ["return", "export"] },
+      { "blankLine": "always", "prev": "import", "next": ["return", "export"] },
+      { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
+      { "blankLine": "any", "prev": ["import"], "next": ["import"] }
+    ],
+    "prefer-spread": 0
   }
 }
