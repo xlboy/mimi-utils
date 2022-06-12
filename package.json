@@ -12,6 +12,7 @@
     "clean": "rimraf ./**/node_modules"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.18.2",
     "@microsoft/api-extractor": "^7.24.1",
     "@type-challenges/utils": "^0.1.1",
     "@types/jest": "^27.5.1",
