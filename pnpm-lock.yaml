@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@babel/plugin-transform-modules-commonjs': ^7.18.2
       '@microsoft/api-extractor': ^7.24.1
       '@type-challenges/utils': ^0.1.1
       '@types/jest': ^27.5.1
@@ -25,6 +26,7 @@ importers:
       tsup: ^6.1.0
       typescript: ^4.7.3
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs': 7.18.2
       '@microsoft/api-extractor': 7.24.2
       '@type-challenges/utils': 0.1.1
       '@types/jest': 27.5.2
@@ -344,6 +346,20 @@ packages:
     dependencies:
       '@babel/core': 7.18.2
       '@babel/helper-plugin-utils': 7.17.12
+    dev: true
+
+  /@babel/plugin-transform-modules-commonjs/7.18.2:
+    resolution: {integrity: sha512-f5A865gFPAJAEE0K7F/+nm5CmAE3y8AWlMBG9unu5j9+tk50UQVK0QS8RNxSp7MJf0wh97uYyLWt3Zvu71zyOQ==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/helper-module-transforms': 7.18.0
+      '@babel/helper-plugin-utils': 7.17.12
+      '@babel/helper-simple-access': 7.18.2
+      babel-plugin-dynamic-import-node: 2.3.3
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@babel/plugin-transform-modules-commonjs/7.18.2_@babel+core@7.18.2:
