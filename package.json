@@ -2,7 +2,6 @@
   "name": "@mimi-utils/mimi-utils",
   "description": "some useful tools",
   "author": "xlboy",
-  "type": "module",
   "license": "MIT",
   "packageManager": ">=pnpm@7.0.0",
   "engines": {
