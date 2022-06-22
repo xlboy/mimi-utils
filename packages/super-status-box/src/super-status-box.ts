@@ -133,7 +133,7 @@ export class SuperStatusBox<
         ...preValue,
         [currentValue.key]: currentValue.unifyLabel
       };
-    }, {} as Record<UnionStatusAliases, string>);
+    }, {} as Record<UnionStatusKeys, string>);
   };
 
   /** 根据单个别名查找相应的 status-key */
