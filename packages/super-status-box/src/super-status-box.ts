@@ -124,7 +124,7 @@ export class SuperStatusBox<
         ...preValue,
         ...mergeSource
       };
-    }, {} as Record<UnionStatusAliases, string>);
+    }, {} as Record<UnionStatusKeys, string>);
   };
 
   private statusConverToEnum = (status: S) => {
