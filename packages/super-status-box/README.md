@@ -1,46 +1,31 @@
-```ts
-enum OrderStatus {
-  /** 待付款 */
-  PENDING_PAYMENT = "0"
-  /** 已发货 */
-  DELIVERED = "2"
-}
-```
+# super-status-box
 
-### 场景
+一个围绕着 `业务数据状态` 而定制的库，主要为了提高开发时的效率、舒适度。
 
-1.  场景 1
+<p align="center">
+  <a href="https://npmjs.com/package/@mimi-utils/super-status-box"><img src="https://img.shields.io/npm/v/@mimi-utils/super-status-box.svg?style=flat-square" alt="npm downloads"></a>
+  <a href="https://npmjs.com/package/@mimi-utils/super-status-box"><img src="https://img.shields.io/npm/dt/@mimi-utils/super-status-box.svg?style=flat-square" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/@mimi-utils/super-status-box"><img src="https://img.shields.io/npm/l/@mimi-utils/super-status-box.svg?style=flat-square" alt="License"></a>
+</p>
 
-    `「table 页」`用到 Order 模块的 `OrderStatus` 枚举
+## 特性
 
-    在`「table 页」`中，有`「table-search」「table-data」`这两处地方用到枚举。
+- 使用 **TypeScript** 开发，提供了尽可能完美的类型支持
 
-    `「table-search」`中渲染时，需要的格式为 `Enum`，即 **`{ "0": "待付款", "2": "已发货" }`** （此处的「待付款」「已发货」是统一的文案」）
+<!-- - 灵活且丰富、实用的 API，是通过对 `数据状态` 在不同业务场景中的表现进行了一定的深入思考而设计出的。 -->
 
-    而在`「table-data」`中渲染时，需要的格式为 `Options`，即 **`[{ value: "0", label: "待付款" }, { value: "2", label: "已发货" }]`** （此处的「待付款」「已发货」是统一的文案」）
+<!-- - 对 `数据状态` 在不同业务场景中的表现进行了一定深入的思考，从而设计出的灵活且丰富、实用的 API。 -->
 
-    以上情况，以证明『它们需要用到`「两种数据转换」`的方法』，分别是`「toEnum」「toOptions」`
+- 深入 `数据状态` 在不同业务场景中的细节表现而设计的 API（灵活、丰富、实用）
 
-2.  场景 2
+- 根据 `数据状态` 轻松且优雅的转换成你在各业务场景中期望的数据格式
 
-    另外，又在`「form 页」`用到 `OrderStatus` 枚举
+## 动机
 
-    此时，`「form 页」`中的`「select 控件」`渲染时，需要的格式为 `Options`，即 **`[{ value: "0", label: "待付款(有权调整)" }, { value: "2", label: "运送中" }]`** （此处的文案和上面`「table 页」`中的文案不一样）
+因不同业务模块的 `数据状态` 在不同的页面场景中的「转换、过滤等等的表现」较为「千篇一律」，哪怕进行了一定的零散封装，但也未达到自己心中的最佳状态。因而重新拾起了这散落在各个角落的每个细节，对其进行了一定的思考后定制封装了此库。
 
-    不一样后，按理说就得`写方法`来转换。紧接着又得用上 `OrderStatus` 这个枚举作为核心。
+<!-- [（如果你对这些页面场景感兴趣的话，可以点击本链接进行了解）](https://www.baidu.com) -->
 
-    ***
+---
 
-    渐渐的，为了处理`「不一样的文案」「转换为 Enum」「转换为 Options」`这几个场景而堆积下来的 `函数复用、过程复用`，就有点不太理想的感觉了。
-
-3.  场景 3
-
-    又有一个 `「table 页」` 用到 `OrderStatus` 枚举
-
-    但这个 `「table 页」` 的情况特殊一点，只用 `OrderStatus` 枚举里的 `「待付款」`，且将其转为 `Enum` 格式而提供给组件内部渲染（这里就不说是否统一文案了，如果不是，又是个麻烦的情况）
-
-    只用 `OrderStatus` 里的一部分，即 `Pick`，此处是简单的 `Pick` 一个 `「待付款」`，然而实际场景中，可能不止一个。甚至会因所处的环境（if）而变得复杂起来
-
-    ***
-
-    到了这一步…又迎来了一个 `Pick` 场景，然而还有 `Omit`，以及其他…如上场景都是常发生的，并未做过度的假设。
+...文档完善中

@@ -32,7 +32,9 @@ const commitlintConfig: UserConfig = {
         // * package.json 依赖项（dependencies、devDependencies）的调整，「新增/移除/升级」等
         'deps',
         // * CQ（Code Quality - 代码质量），即与代码质量相关的调整（例：代码结构的调整、变量命名的调整、代码注释的调整等）
-        'cq'
+        'cq',
+        // * WIP（Work in Progress - 工作进行中），工作尚未完成，暂提交一部分
+        'wip'
       ]
     ]
   }
