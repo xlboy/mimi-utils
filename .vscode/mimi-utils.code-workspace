@@ -11,6 +11,10 @@
     {
       "name": "super-status-box",
       "path": "../packages/super-status-box"
+    },
+    {
+      "name": "simple-upload",
+      "path": "../packages/simple-upload"
     }
   ],
   "settings": {
