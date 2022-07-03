@@ -16,18 +16,28 @@ export interface UploadRequestError extends Error {
   url?: string;
 }
 
+export type ProcessFileType = {
+  data: Record<string, unknown> | any;
+  parsedFile: SimpleFile | any;
+  origin: SimpleFile | any;
+};
+
+export type BeforeUploadFileType = File | Blob | boolean | string;
+
 export type SimpleUploadOptionsType = {
   action: string;
-  accept?: string; // 文件类型
-  name: 'File';
+  name?: 'File';
   method: UploadRequestMethod;
-  beforeUpload?: (files: File, fileList: File[]) => Promise<File>;
+  beforeUpload?: (
+    files: SimpleFile,
+    fileList: SimpleFile[]
+  ) => BeforeUploadFileType | Promise<void | BeforeUploadFileType>;
   headers?: AxiosRequestHeaders;
-  onProgress?: (progressEvent: any, file: File) => void;
-  afterUpload?: (file: File) => void;
+  onProgress?: (progressEvent: UploadProgressEvent, file: File) => void;
   onSuccess: (res: AxiosResponse<any, any>) => void;
-  onError: (error: any) => void;
+  onError?: (error: any) => void;
   data?: (file: File) => Promise<Record<string, unknown>> | Record<string, unknown> | Promise<Record<string, unknown>>;
+  //Todo：目前未想好怎么设计
   done?: (file: File[] | File) => void;
 };
 
@@ -38,7 +48,7 @@ export interface UploadRequestOption {
   file: SimpleFile;
   headers?: AxiosRequestHeaders;
   method: UploadRequestMethod;
-  onProgress: (e: UploadProgressEvent) => void;
+  onProgress: (progressEvent: UploadProgressEvent, file: SimpleFile) => void;
   onSuccess: (ret: any) => void;
   onError: (err: UploadRequestError) => void;
   cancel?: Canceler;
