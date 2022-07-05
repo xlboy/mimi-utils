@@ -21,8 +21,8 @@
     }
   },
   "scripts": {
-    "test": "jest",
-    "build": "npm run test && tsup"
+    "test": "jest --passWithNoTests",
+    "build": "tsup && yalc publish"
   },
   "homepage": "https://github.com/xlboy/mimi-utils/tree/master/packages/simple-upload",
   "repository": {
@@ -34,5 +34,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "spark-md5": "^3.0.2"
+  },
+  "devDependencies": {
   }
 }
