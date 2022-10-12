@@ -5,7 +5,8 @@ import type { ToEnumOptions, ToListOptions } from './types';
 export class SuperStatusBox<
   S extends ReturnType<typeof defineSuperStatus>,
   UnionStatusKeys extends S[number]['key'] = S[number]['key'],
-  UnionStatusAliases extends S[number]['alias'] = S[number]['alias']
+  UnionStatusAliases extends S[number]['alias'] = S[number]['alias'],
+  UnionStatusLabels extends S[number]['unifyLabel'] = S[number]['unifyLabel']
 > {
   constructor(private readonly status: S) {}
 
@@ -150,5 +151,23 @@ export class SuperStatusBox<
     const foundKeys = this.status.filter(item => aliases.includes(item.alias as any)).map(item => item.key);
 
     return foundKeys as any;
+  };
+
+  /** 根据单个别名查找相应的 status-label */
+  findLabelByAlias = <T extends UnionStatusAliases>(
+    alias: T
+  ): S[L.SelectKeys<S, { alias: T }>]['unifyLabel'] | undefined => {
+    const foundKey = this.status.find(item => item.alias === alias);
+
+    return foundKey?.unifyLabel as any;
+  };
+
+  /** 根据多个别名查找相应的 status-label */
+  findLabelsByAliases = <T extends ReadonlyArray<UnionStatusAliases>>(
+    aliases: T
+  ): /** TODO: 此类型待完善 */ UnionStatusLabels[] => {
+    const foundLabels = this.status.filter(item => aliases.includes(item.alias as any)).map(item => item.unifyLabel);
+
+    return foundLabels as any;
   };
 }

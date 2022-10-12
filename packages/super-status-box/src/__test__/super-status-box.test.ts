@@ -106,6 +106,30 @@ describe('查找 status-key', () => {
   });
 });
 
+describe('查找 status-label', () => {
+  const definedStatus = defineSuperStatus([
+    { alias: 'a-alias', key: 'a-key', unifyLabel: 'a-别名' },
+    { alias: 'b-alias', key: 'b-key', unifyLabel: 'b-别名' },
+    { alias: 'c-alias', key: 'c-key', unifyLabel: 'c-别名' }
+  ] as const);
+
+  const statusOrigin = new SuperStatusBox(definedStatus);
+
+  it('根据单个别名查找', () => {
+    const foundLabel = statusOrigin.findLabelByAlias('b-alias');
+
+    expect(foundLabel).toBe('b-别名');
+
+    type Case = Expect<Equal<typeof foundLabel, 'b-别名' | undefined>>;
+  });
+
+  it('根据多个别名查找', () => {
+    const foundKeys = statusOrigin.findLabelsByAliases(['b-alias', 'c-alias']);
+
+    expect(foundKeys).toMatchObject(['b-别名', 'c-别名']);
+  });
+});
+
 describe('状态转列表', () => {
   const definedStatus = defineSuperStatus([
     { alias: 'a-alias', key: 'a-key', unifyLabel: 'a-别名' },
