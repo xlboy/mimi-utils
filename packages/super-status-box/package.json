@@ -1,6 +1,6 @@
 {
   "name": "@mimi-utils/super-status-box",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "一个围绕着 `业务数据状态` 而定制的库 - A library customized around `business data status'",
   "keywords": [
